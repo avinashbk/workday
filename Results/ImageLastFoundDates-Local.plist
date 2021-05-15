@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DSKWindows/Button_StartMenu/Button_StartMenu_Windows10.png</key>
+	<string>2019-06-10 11:37 +0000</string>
+	<key>Image_DoneButton.png</key>
+	<string>2019-06-10 13:43 +0000</string>
+	<key>Image_FindWorkersforMassEnrollment.png</key>
+	<string>2019-06-10 11:38 +0000</string>
+	<key>Image_HeaderTextPhoto.png</key>
+	<string>2019-06-10 13:42 +0000</string>
+	<key>Image_LearningAdmin/Image_LearningAdmin.png</key>
+	<string>2019-06-10 11:38 +0000</string>
+	<key>Image_LearningMassEnroll.png</key>
+	<string>2019-06-10 13:42 +0000</string>
+	<key>Image_OK.png</key>
+	<string>2019-06-10 13:42 +0000</string>
+	<key>Image_Search.png</key>
+	<string>2019-06-10 13:42 +0000</string>
+	<key>Image_SearchCourse.png</key>
+	<string>2019-06-10 13:42 +0000</string>
+	<key>Image_Tools/Image_Tools.png</key>
+	<string>2019-06-10 11:38 +0000</string>
+	<key>Image_Workday.png</key>
+	<string>2019-06-10 11:38 +0000</string>
+</dict>
+</plist>

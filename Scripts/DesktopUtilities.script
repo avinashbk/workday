@@ -1,0 +1,166 @@
+﻿(**
+	To check whether cloud desktop is connected
+**)
+to dismissRulesOfRoad
+	log "Checking for rules of the road message"
+	if ImageFound(5 seconds, text:"Rules of the Road",ValidCharacters:"*")
+		TypeText returnKey
+	end if	
+end dismissRulesOfRoad
+
+(**
+	To login into cloud windows machine 
+**)
+
+to windowsLoginCheck
+	// Check if user is logged into Windows
+	set searchArea to DesktopUtilities.getSearchArea (0, .93, .05, 1) // Bottom left area for Windows Start Menu icon
+	log "Checking if user is logged into windows"
+	if ImageFound(imageName: "DSKWindows/Button_StartMenu", waitFor: 30 seconds, SearchRectangle: searchArea)
+		return true
+	else 
+		log "Unable to verify user is logged into Windows device"
+		return false
+	end if
+end windowsLoginCheck
+
+(**
+	To set rectangle for a screen
+**)
+
+to getSearchArea startX, startY, endX, endY
+	LogWarning "The DesktopUtilities.getSearchArea will be deprecated in the IPDEV-Desktop-Shared 1.0.0 release.  Please update test to use ORNScreen.scale or other screen handler within ORNScreen from the IPDEV-Orion-Shared project"
+	if startX is a number and startY is a number and endX is a number and endY is a number 
+		set screenSize to ConnectionInfo().ScreenSize
+		set searchArea to (screenSize.x * startX, screenSize.y * startY, screenSize.x *endX, screenSize.y * endY)
+		log "Calculated Search Area:" && searchArea
+		return searchArea
+	else
+		throw Name:"DesktopUtilities.getSearchArea", reason: "Invalid number used for calculation or invalid/empty parameters passed in"
+	end if
+	return searchArea
+end getSearchArea
+
+
+(**
+	To launch chrome browser in Incognito mode
+**)
+
+to launchChromeIncognito
+	If DesktopUtilities.windowsLoginCheck equals true 
+		log "Opening chrome in incognito mode."
+		DesktopUtilities.killTask "chrome.exe"
+		DesktopUtilities.launchTask "chrome -Incognito"
+		WaitFor 30 second ,text: "gone incognito"  // Verify it has launched
+		log "Chrome has been opened in Incognito mode"
+	end if	
+end launchChromeIncognito
+
+
+(**
+	To launch and maximize the chrome browser
+**)
+to launchChromeIncognitoMaxURL URL
+	DesktopUtilities.launchChromeIncognito
+	log "Entering URL into chrome"
+	TypeText URL	
+	TypeText returnkey
+	DesktopUtilities.maximizeWindow "Image_LearningAdmin", (Image:"Image_FindWorkersforMassEnrollment", WaitFor:3.3), "Image_Search", "Image_LearningMassEnroll", (Image:"Image_OK", WaitFor:16.7)
+end launchChromeIncognitoMaxURL
+
+(**
+	To maximize the browser
+**)
+to maximizeWindow
+	log "Maximizing selected application"
+	KeyDown altKey, spacebar
+	wait 1 // slight delay needed for popover to display, nothing unique to waitfor on
+	TypeText "x"
+	KeyUp  altKey, spacebar 
+end maximizeWindow
+
+(**
+	To launch task through search bar
+**)
+to launchTask task
+	log "Launching task" && task && "from command line"
+	typetext windowskey,"r"  // open run window
+	TypeText task, ReturnKey
+end launchTask
+
+(**
+	To kill any opened tasks at the end
+**)
+to killTask task
+	log "Ending task" && task && "from command line"
+	typetext windowskey,"r"  // open run window
+	TypeText "taskkill /f /im" && task, ReturnKey 
+end killTask
+
+(**
+	To select user from the user result list.
+**)
+to selectUserToAdd userName
+	if imagefound(waitfor:15, text: "Result", ignoreSpaces:Y, ignorecase:Y, SearchRectangle:ORNScreen.scale (.12, .3, .4, 1)) Then
+		put ImageRectangle(waitfor:15, text:userName, DPI:"150",  EnableAggressiveTextExtraction:"Yes", ValidCharacters:"Yes",ValidWords:"*", SearchRectangle:ORNScreen.scale (.15, .4, .4, 1)) into initRectangle
+		set imageLeft = left(initRectangle)	
+		set startLeft = imageLeft - 104
+		set imageTop = top(initRectangle)
+		set startTop = imageTop + 3		
+		set loc = (StartLeft,StartTop)
+		wait 3
+		click  loc				
+	else		
+		throw exception "Username not found"
+	end if	
+end selectUserToAdd	
+
+
+(**
+	To search user through search option
+**)
+to searchUserName userName
+	set imageSearch to ImageLocation("Image_Search")
+	Click (imageSearch + (900,0))
+	TypeText controlKey, "a"
+	TypeText deleteKey
+	TypeText userName
+	TypeText returnKey
+end searchUserName
+
+(**
+	Search and Select Assocaite to allocate the course.
+**)
+to selectUser userName
+	DesktopUtilities.searchUserName userName
+	DesktopUtilities.selectUserToAdd userName
+	Click "Image_LearningMassEnroll"
+end selectUser
+--(344,477,370,497)
+(**
+	Search and Select course to allocate to user.
+**)
+to searchAndSelectCourse courseName
+	Click "Image_SearchCourse"
+	TypeText courseName
+	TypeText returnKey
+	Click "Image_OK"
+end searchAndSelectCourse
+
+
+(*
+Handler to select checkbox and confirm course to assocaite
+*)
+to confirmUserCourse
+	if imagefound(waitfor:15, image: "Image_HeaderTextPhoto" ) Then
+		put ImageRectangle(waitfor:15, image: "Image_HeaderTextPhoto") into initRectangle
+		set imageLeft = left(initRectangle)	
+		set startLeft = imageLeft - 66
+		set imageTop = top(initRectangle)
+		set startTop = imageTop + 4		
+		set loc = (StartLeft,StartTop)	
+		click  loc				
+	else		
+		throw exception "Username not found"
+	end if	
+end confirmUserCourse

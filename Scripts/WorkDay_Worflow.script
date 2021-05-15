@@ -1,0 +1,28 @@
+﻿DesktopUtilities.dismissRulesOfRoad
+DesktopUtilities.launchChromeIncognitoMaxURL "https://my.cerner.com/home/"
+Click "Image_Tools"
+Click "Image_Workday"
+Click "Image_LearningAdmin"
+Click "Image_FindWorkersforMassEnrollment"
+
+//Read and write to application from excel file
+set myExcelDB to (type: "excel", file: ResourcePath("ConsultantTracking_Test.xlsx"))
+set WordayData to the records of myExcelDB
+
+//Repeat until all rows are read and written to application
+repeat with each item WorkdayUserCourseAllocation of WordayData
+	
+	Set userName to WorkdayUserCourseAllocation's Name
+	DesktopUtilities.selectUser userName
+	
+	Set courseName to WorkdayUserCourseAllocation's Course
+	DesktopUtilities.searchAndSelectCourse courseName
+	
+	DesktopUtilities.confirmUserCourse
+	WaitFor 30, "Image_OK"
+	Click "Image_OK"
+	WaitFor 30, "Image_DoneButton"
+	Click "Image_DoneButton"
+	
+end repeat
+

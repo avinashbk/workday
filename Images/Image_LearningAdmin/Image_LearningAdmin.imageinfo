@@ -1,0 +1,21 @@
+﻿{
+    CaptureDate = "2019-06-10 11:31:39 +0000";
+    CaptureHost = Praveen;
+    CaptureScreenSize =     (
+        1920,
+        1080
+    );
+    HasAlpha = 1;
+    HotSpotX = 30;
+    HotSpotY = 32;
+    ImageDescription = <>;
+    LastKnownLocationX = 0;
+    LastKnownLocationY = 0;
+    OriginalLocationX = 1168;
+    OriginalLocationY = 531;
+    Precise = 0;
+    Pulsing = 0;
+    Scale = 1;
+    tags =     (
+    );
+}
